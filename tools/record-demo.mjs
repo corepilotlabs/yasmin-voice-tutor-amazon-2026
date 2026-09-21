@@ -1,5 +1,6 @@
 import { chromium } from 'playwright-core';
 import { access, writeFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
 
 const targetMs = Math.max(115000, Number(process.env.TARGET_MS || 125000));
 let startedAt = 0;
@@ -121,16 +122,35 @@ await click('smartSessionBtn');
 await waitUntil(80);
 await shot('06-next-session');
 
-await waitUntil(89);
-await proof(
-  'ALEXA+ · REAL MCP PROOF',
-  'Real Streamable HTTP MCP · six learning tools · client/server integration test PASS',
-  'MCP orchestration',
-  'yasmin_plan_next_session → yasmin_start_session → yasmin_tutor_turn → yasmin_get_learner_profile'
-);
-await waitUntil(96);
-await shot('07-mcp-proof');
+await waitUntil(88);
+const terminal = spawn('xterm', [
+  '-geometry', '116x27+55+120',
+  '-fa', 'Monospace',
+  '-fs', '12',
+  '-bg', '#0b1020',
+  '-fg', '#f3f7ff',
+  '-title', 'Alexa+ MCP — LIVE VERIFICATION',
+  '-e', 'bash', '-lc',
+  [
+    'printf "\\n  YASMIN VOICE TUTOR — ALEXA+ MCP LIVE PROOF\\n"',
+    'printf "  ===========================================\\n\\n"',
+    'printf "  $ npm run test:mcp\\n\\n"',
+    'npm run test:mcp',
+    'printf "\\n  REAL Streamable HTTP MCP verification complete.\\n"',
+    'sleep 12'
+  ].join('; ')
+], {
+  cwd: process.cwd(),
+  env: { ...process.env, DISPLAY: process.env.DISPLAY || ':99' },
+  stdio: 'ignore'
+});
 
+await waitUntil(91);
+await shot('07-mcp-live-terminal');
+await waitUntil(106);
+if (!terminal.killed) terminal.kill('SIGTERM');
+
+await page.bringToFront();
 await waitUntil(108);
 await proof(
   'YASMIN · PRODUCT PATH',

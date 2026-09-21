@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#5b4bdb" />
+  <meta name="description" content="Yasmin Voice Tutor — an adaptive, voice-first tutoring agent built as an Alexa+ simulated experience for the Amazon Developer Hackathon 2026." />
+  <title>Yasmin Voice Tutor — Adaptive Voice Learning</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">Y</div>
+        <div><strong>Yasmin Voice Tutor</strong><span>Adaptive voice learning agent</span></div>
+      </div>
+      <div class="top-status">
+        <div class="badge">Amazon Developer Hackathon · Alexa+</div>
+        <div class="runtime-badge"><span></span> Streamable HTTP MCP + voice demo</div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel sidebar" aria-label="Lesson selection">
+        <p class="eyebrow">Choose a learning loop</p>
+        <h2>Small lesson. Real adaptation.</h2>
+        <p class="muted">Each demo proves the same core behavior: explain, listen, evaluate, adapt, then require evidence before claiming mastery.</p>
+
+        <div class="judge-demo-card">
+          <p class="eyebrow">For judges · guided story</p>
+          <strong id="judgeDemoTitle">Meet Yasmin — a tutor that proves understanding</strong>
+          <p>Let Yasmin explain the product herself, then watch a real adaptive learning loop run end-to-end.</p>
+          <div class="judge-actions">
+            <button id="judgeDemoBtn" class="primary judge-demo-btn" type="button">▶ Let Yasmin present</button>
+            <button id="stopDemoBtn" class="secondary" type="button" hidden>Stop demo</button>
+          </div>
+          <div class="demo-progress" aria-live="polite">
+            <span id="demoProgressText">Ready · about 2 minutes</span>
+            <div class="demo-progress-track"><span id="demoProgressBar"></span></div>
+          </div>
+        </div>
+
+        <div class="learning-memory-card">
+          <div class="memory-head">
+            <div>
+              <p class="eyebrow">Cross-session learning memory</p>
+              <strong id="learningMemorySummary">No saved learning evidence yet.</strong>
+            </div>
+            <span class="local-only">Local only</span>
+          </div>
+          <p id="learningMemoryReason" class="memory-reason">Yasmin will plan the next session from compact mastery evidence.</p>
+          <div class="memory-actions">
+            <button id="smartSessionBtn" class="primary" type="button">Plan next session</button>
+            <button id="clearMemoryBtn" class="secondary" type="button">Clear memory</button>
+          </div>
+          <small>Stores mastery metadata on this device — never the learner transcript or audio.</small>
+        </div>
+
+        <div id="lessonList" class="lesson-list"></div>
+        <button id="startBtn" class="primary start" type="button">Start learning</button>
+        <div class="privacy-note"><strong>Demo privacy:</strong> no account and no remote child profile. Only compact mastery metadata can persist locally on this device; transcript text and voice audio are not stored in the learning profile.</div>
+      </aside>
+
+      <section class="panel main-panel" aria-label="Tutor conversation">
+        <div class="lesson-head">
+          <div>
+            <p class="eyebrow">Current lesson</p>
+            <h1 id="lessonTitle">½ Fractions that make sense</h1>
+            <p id="lessonObjective">Compare simple fractions and connect equivalent fractions.</p>
+          </div>
+          <div class="mastery" aria-label="Current mastery evidence">
+            <div class="mastery-label"><span>Evidence-based mastery</span><span id="masteryValue">20%</span></div>
+            <div class="progress"><span id="masteryBar"></span></div>
+          </div>
+        </div>
+
+        <div id="presenterStage" class="presenter-stage" hidden aria-live="polite">
+          <div class="presenter-orb">Y</div>
+          <div>
+            <p id="presenterKicker">Yasmin is presenting</p>
+            <strong id="presenterText"></strong>
+          </div>
+        </div>
+
+        <div id="transcript" class="transcript" aria-live="polite"></div>
+
+        <div class="composer">
+          <div class="quick-actions">
+            <button id="hintBtn" class="secondary" type="button">Give me a hint</button>
+            <button id="confusedBtn" class="secondary" type="button">I don’t understand</button>
+          </div>
+          <form id="answerForm" class="answer-row">
+            <button id="micBtn" class="mic" type="button" aria-label="Answer by voice" aria-pressed="false">🎙</button>
+            <input id="answerInput" autocomplete="off" placeholder="Say or type your answer naturally…" aria-label="Your answer" />
+            <button class="primary" type="submit">Send</button>
+          </form>
+          <div class="voice-line"><span id="voiceStatus">Voice ready. You can also type at any time.</span><label class="switch"><input id="voiceToggle" type="checkbox" checked /> Speak Yasmin’s replies</label></div>
+        </div>
+      </section>
+
+      <aside class="panel inspector" aria-label="Agent reasoning summary">
+        <p class="eyebrow">Agent control room</p>
+        <h2>Why Yasmin chose the next step</h2>
+        <div class="inspector-grid">
+          <div class="agent-card"><label>Learning phase</label><strong id="phase">idle</strong></div>
+          <div class="agent-card"><label>Current strategy</label><strong id="strategy">Explain → check understanding</strong></div>
+          <div class="agent-card"><label>Planner / evaluator decision</label><div id="decision" class="decision">Waiting to start</div></div>
+          <div class="evidence-head"><strong>Session evidence</strong><span id="memoryCount" class="count">0</span></div>
+          <ul id="evidence" class="evidence-list"></ul>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

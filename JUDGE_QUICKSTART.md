@@ -2,7 +2,7 @@
 
 This page is designed for a reviewer who has only a few minutes.
 
-**Public source branch:** `https://github.com/corepilotlabs/odoo18-business-apps/tree/yasmin-amazon-2026`
+**Public source branch:** `https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026`
 
 ## 1. Run the project
 
@@ -91,4 +91,4 @@ No child account is needed for judging. The web demo can persist compact mastery
 
 ## Verified CI
 
-The full `npm test` suite passed on GitHub-hosted Ubuntu 24.04 / Node.js 22 after the final scope validator fix. This includes the MCP integration path.
+The full `npm test` suite passed on GitHub-hosted Ubuntu / Node.js 22 in the standalone repository. Latest verified run: https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026/actions/runs/35628201696

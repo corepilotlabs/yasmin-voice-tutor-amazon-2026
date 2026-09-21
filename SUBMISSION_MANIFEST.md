@@ -2,8 +2,8 @@
 
 ## Public source
 
-Repository: `corepilotlabs/odoo18-business-apps`  
-Branch: `main`
+Repository: `corepilotlabs/yasmin-voice-tutor-amazon-2026`  
+Branch: `main`  
 
 Public URL:
 
@@ -49,3 +49,10 @@ The branch contains only competition-facing Yasmin material. Unrelated private p
 ## Demo video
 
 YouTube (Public): `https://youtu.be/tv48YY4uPSk`
+
+
+## Standalone CI proof
+
+https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026/actions/runs/35627986499
+
+See `CI_PROOF.md`.

@@ -81,29 +81,24 @@ Show Yasmin selects **Science — Food chain** because Fractions already has str
 
 **Judging proof:** Quality of Idea — state across sessions.
 
-## 2:24–2:42 — Real Alexa+ MCP proof
+## 1:28–1:46 — Alexa+ MCP live proof
 
-Show a compact terminal/test shot and architecture card:
+**Visual:** real terminal window opens over the running Yasmin UI and executes:
 
-```text
-Alexa+ / MCP client
-        ↓
-Streamable HTTP MCP
-        ↓
-Yasmin Learning Runtime
-        ↓
-Planner + Evaluator + Evidence Memory
+```bash
+npm run test:mcp
 ```
 
-Show these tools briefly:
-- `yasmin_plan_next_session`
-- `yasmin_start_session`
-- `yasmin_tutor_turn`
-- `yasmin_get_learner_profile`
+The terminal visibly shows:
+- MCP initialize: PASS
+- all six discovered Yasmin tools
+- initial plan: fractions / new
+- false-mastery guard keeping “okay” at reflection
+- learner memory retaining completed fractions evidence
+- next plan after memory: foodchain / new
+- final MCP integration test PASS
 
-Show the integration test line:
-
-**PASS — adaptive state and cross-session planning verified**
+**Narration:** explain that the same learning runtime is exposed through a real Streamable HTTP MCP server and that the integration test proves one session changes the next plan.
 
 ## 2:42–2:55 — Product impact close
 

@@ -53,7 +53,7 @@ A browser-based judge experience adds:
 - local-only cross-session mastery memory;
 - a Presenter Mode where Yasmin introduces and demonstrates the project herself.
 
-The competition branch also adds automated core tests and a real MCP client/server integration test.
+The standalone submission repository includes automated core tests and a real MCP client/server integration test.
 
 ## The signature moment
 
@@ -140,7 +140,7 @@ The included lessons are deliberately small and deterministic so reviewers can r
 
 Public submission branch:
 
-`https://github.com/corepilotlabs/odoo18-business-apps/tree/yasmin-amazon-2026`
+`https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026`
 
 The complete competition suite has passed on a GitHub-hosted Ubuntu 24.04 runner with Node.js 22, including the deterministic learning engine, presenter flow, cross-session memory, submission-consistency gate, and real MCP client/server integration test.
 

@@ -1,0 +1,21 @@
+{
+  "name": "yasmin-voice-tutor-amazon-hackathon",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test:core": "node tests/agent.test.mjs && node tests/presenter.test.mjs && node tests/memory.test.mjs && node tests/runtime.test.mjs",
+    "test:mcp": "node tests/mcp.integration.test.mjs",
+    "test": "npm run test:core && npm run test:submission && npm run test:mcp",
+    "test:submission": "node tests/submission.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "express": "5.2.1",
+    "zod": "4.1.12"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

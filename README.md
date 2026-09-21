@@ -3,7 +3,7 @@
 **Primary track:** Alexa+  
 **Project:** Yasmin Voice Tutor  
 **Submission type:** Significant update to an existing education product concept  
-**Judge entry point:** repository root on default branch `main`
+**Judge entry point:** repository root on branch `yasmin-amazon-2026`
 
 > Yasmin is a learning agent that teaches, listens, adapts, remembers compact mastery evidence across sessions, and refuses to claim understanding without proof.
 

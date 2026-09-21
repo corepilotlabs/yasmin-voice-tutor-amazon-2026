@@ -7,7 +7,7 @@
 
 ## Repository
 - [ ] Enter public branch URL in Devpost
-- [x] Submission code is public on default branch `main`; no collaborator invitation is required
+- [x] Submission code is public on branch `yasmin-amazon-2026`; no collaborator invitation is required
 - [x] Judge access instructions point to the public branch
 - [x] `npm install && npm test` succeeds on GitHub-hosted Ubuntu 24.04 / Node 22
 - [ ] `/health` reports MCP metadata
@@ -51,5 +51,3 @@
 - [ ] Test Presenter Mode after prior learning memory exists
 
 - [x] Demo video uploaded to YouTube as Public: https://youtu.be/tv48YY4uPSk
-
-- [x] Standalone repo CI: https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026/actions/runs/35627986499

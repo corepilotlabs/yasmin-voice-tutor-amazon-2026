@@ -5,13 +5,13 @@ This submission branch is **public**, so Amazon and Devpost reviewers do not nee
 ## Public judge branch
 
 Repository:
-`corepilotlabs/yasmin-voice-tutor-amazon-2026`
+`corepilotlabs/odoo18-business-apps`
 
 Branch:
-`main`
+`yasmin-amazon-2026`
 
 Direct branch URL:
-`https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026`
+`https://github.com/corepilotlabs/odoo18-business-apps/tree/yasmin-amazon-2026`
 
 ## Quick run
 

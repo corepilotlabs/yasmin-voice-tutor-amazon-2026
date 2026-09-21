@@ -50,7 +50,7 @@
 - [ ] Test Presenter Mode from a clean memory state
 - [ ] Test Presenter Mode after prior learning memory exists
 
-- [x] Demo video uploaded to YouTube as Public: https://youtu.be/tv48YY4uPSk
+- [x] Demo video uploaded to YouTube as Public: https://youtu.be/MPMAUfeAwNU
 
 - [x] Final v2 video with live MCP terminal proof generated and reviewed frame-by-frame
-- [ ] Upload final v2 video to YouTube as Public and replace the previous demo URL in Devpost
+- [ ] Upload final v2 video to YouTube as Public and replace the final public demo URL in Devpost

@@ -51,3 +51,5 @@
 - [ ] Test Presenter Mode after prior learning memory exists
 
 - [x] Demo video uploaded to YouTube as Public: https://youtu.be/tv48YY4uPSk
+
+- [x] Standalone repo CI: https://github.com/corepilotlabs/yasmin-voice-tutor-amazon-2026/actions/runs/35627986499

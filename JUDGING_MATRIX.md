@@ -16,7 +16,7 @@
 
 **Judge proof**
 
-Run `npm test`, then inspect `mcp-server.mjs`, `learning-runtime.mjs`, and the live Agent Control Room.
+The final demo includes a live terminal proof running `npm run test:mcp`, showing MCP initialization, six discovered tools, the false-mastery guard, cross-session memory, and the next-session plan changing from fractions to food chain. Judges can also run `npm test` and inspect `mcp-server.mjs` and `learning-runtime.mjs`.
 
 ## 2. Design
 

@@ -54,6 +54,9 @@ try {
 
   const tools = await client.listTools();
   const names = new Set(tools.tools.map((tool) => tool.name));
+  console.log('MCP initialize: PASS');
+  console.log('Discovered tools:');
+  for (const tool of tools.tools) console.log('  - ' + tool.name);
   for (const required of [
     'yasmin_list_lessons',
     'yasmin_plan_next_session',
@@ -68,6 +71,7 @@ try {
   const firstPlan = await call(client, 'yasmin_plan_next_session', { learnerKey });
   assert.equal(firstPlan.plan.lessonId, 'fractions');
   assert.equal(firstPlan.plan.mode, 'new');
+  console.log('Initial plan: ' + firstPlan.plan.lessonId + ' / ' + firstPlan.plan.mode);
 
   const started = await call(client, 'yasmin_start_session', {
     learnerKey,
@@ -91,6 +95,7 @@ try {
     learnerUtterance: 'okay'
   });
   assert.equal(falseMastery.response.phase, 'reflection');
+  console.log('False-mastery guard: "okay" kept phase at reflection');
 
   const completed = await call(client, 'yasmin_tutor_turn', {
     sessionId,
@@ -101,10 +106,12 @@ try {
   const profile = await call(client, 'yasmin_get_learner_profile', { learnerKey });
   assert.equal(profile.memory.skills.fractions.completed, true);
   assert.equal(profile.summary.skillsCompleted, 1);
+  console.log('Learner memory: fractions completed, evidence retained across session boundary');
 
   const secondPlan = await call(client, 'yasmin_plan_next_session', { learnerKey });
   assert.equal(secondPlan.plan.lessonId, 'foodchain');
   assert.equal(secondPlan.plan.mode, 'new');
+  console.log('Next plan after memory: ' + secondPlan.plan.lessonId + ' / ' + secondPlan.plan.mode);
 
   const secondSession = await call(client, 'yasmin_start_session', {
     learnerKey,

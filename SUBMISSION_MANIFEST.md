@@ -48,4 +48,4 @@ The branch contains only competition-facing Yasmin material. Unrelated private p
 
 ## Demo video
 
-YouTube (Public): `https://youtu.be/tv48YY4uPSk`
+YouTube (Public): `https://youtu.be/MPMAUfeAwNU`

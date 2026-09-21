@@ -147,4 +147,4 @@ The complete competition suite has passed on a GitHub-hosted Ubuntu 24.04 runner
 
 ## Demo Video
 
-https://youtu.be/tv48YY4uPSk
+https://youtu.be/MPMAUfeAwNU

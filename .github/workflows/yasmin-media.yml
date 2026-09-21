@@ -1,0 +1,148 @@
+name: Yasmin Judge Media Factory
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/**'
+      - 'tools/record-demo.mjs'
+      - 'FINAL_VIDEO_NARRATION.md'
+      - '.github/workflows/yasmin-media.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout competition branch
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install media system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg xvfb
+
+      - name: Install app and capture dependency
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save playwright-core@1.55.0
+          mkdir -p media
+          which google-chrome
+          which ffmpeg
+          which Xvfb
+
+      - name: Build Yasmin final narration
+        run: |
+          urls=(
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/3ef603d1-21a1-4fb8-9c25-442226fc08e4.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/0cf2a8db-c155-4525-8c57-6423b179ec22.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/3cb8dd31-e3d6-4c2f-9177-8bc56a24025a.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/55695e70-82f0-42a3-9499-563a5df4c7ec.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/b1c9e44e-f23b-4e64-9e84-606a47c93f0a.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/1268b51f-a3ff-490f-8716-4da84888e265.mp3"
+            "https://storage.googleapis.com/adm--audio-playback--7d--public/mcp-preview/5c85e2ba-0405-41c3-84ec-5191594fd5cb.mp3"
+          )
+          : > media/narration-list.txt
+          i=0
+          for url in "${urls[@]}"; do
+            i=$((i+1))
+            file="media/segment-$(printf '%02d' "$i").mp3"
+            curl -fL --retry 3 --retry-delay 2 "$url" -o "$file"
+            ffprobe -v error "$file"
+            printf "file '%s'\n" "$(basename "$file")" >> media/narration-list.txt
+          done
+          (
+            cd media
+            ffmpeg -y -loglevel warning -f concat -safe 0 -i narration-list.txt \
+              -c:a libmp3lame -q:a 2 yasmin-narration.mp3
+          )
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 media/yasmin-narration.mp3
+
+      - name: Start Yasmin app
+        run: |
+          nohup npm start > /tmp/yasmin-server.log 2>&1 &
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/yasmin-server.log
+          exit 1
+
+      - name: Start virtual display
+        run: |
+          Xvfb :99 -screen 0 1440x900x24 -nolisten tcp >/tmp/xvfb.log 2>&1 &
+          echo $! > /tmp/xvfb.pid
+          sleep 2
+
+      - name: Run synchronized judge demo capture
+        env:
+          DISPLAY: :99
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          AUDIO_SEC=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 media/yasmin-narration.mp3)
+          TARGET_MS=$(python -c 'import sys; s=float(sys.argv[1]); print(int(max(120, s+4)*1000))' "$AUDIO_SEC")
+          echo "Target capture duration: $TARGET_MS ms"
+
+          rm -f /tmp/yasmin-browser-ready /tmp/yasmin-record-go
+          TARGET_MS="$TARGET_MS" node tools/record-demo.mjs >/tmp/yasmin-record.log 2>&1 &
+          echo $! > /tmp/record.pid
+
+          for i in {1..60}; do
+            if [ -f /tmp/yasmin-browser-ready ]; then break; fi
+            sleep 1
+          done
+          test -f /tmp/yasmin-browser-ready
+
+          DISPLAY=:99 ffmpeg -y -loglevel warning \
+            -f x11grab -draw_mouse 0 -framerate 30 -video_size 1440x900 -i :99.0 \
+            -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p \
+            media/yasmin-screen.mp4 >/tmp/ffmpeg.log 2>&1 &
+          echo $! > /tmp/ffmpeg.pid
+          sleep 1
+          touch /tmp/yasmin-record-go
+
+          set +e
+          wait "$(cat /tmp/record.pid)"
+          code=$?
+          set -e
+          cat /tmp/yasmin-record.log
+          exit "$code"
+
+      - name: Stop recorder and mux narration
+        if: always()
+        run: |
+          if [ -f /tmp/ffmpeg.pid ]; then
+            kill -INT "$(cat /tmp/ffmpeg.pid)" 2>/dev/null || true
+            sleep 3
+          fi
+          test -s media/yasmin-screen.mp4
+          test -s media/yasmin-narration.mp3
+          ffmpeg -y -loglevel warning \
+            -i media/yasmin-screen.mp4 -i media/yasmin-narration.mp3 \
+            -map 0:v:0 -map 1:a:0 \
+            -vf "crop=1440:810:0:90,scale=1280:720" \
+            -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p \
+            -c:a aac -b:a 192k -shortest \
+            media/yasmin-judge-demo.mp4
+          ffprobe -v error -show_entries format=duration,size -of json media/yasmin-judge-demo.mp4
+
+      - name: Upload judge media
+        uses: actions/upload-artifact@v4
+        with:
+          name: yasmin-judge-media
+          path: |
+            media/yasmin-judge-demo.mp4
+            media/*.png
+            media/yasmin-narration.mp3
+          if-no-files-found: error
+          retention-days: 30

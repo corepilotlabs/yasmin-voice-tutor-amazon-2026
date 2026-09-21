@@ -82,4 +82,4 @@ The bundled lessons are intentionally small, deterministic judge loops. They dem
 
 ## Demo video
 
-Public YouTube demo: https://youtu.be/tv48YY4uPSk
+Public YouTube demo: https://youtu.be/MPMAUfeAwNU

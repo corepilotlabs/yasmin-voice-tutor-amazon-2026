@@ -27,6 +27,31 @@ The Alexa+ integration is a real self-hosted MCP surface over Streamable HTTP at
 
 Minimum competition protocol requirement documented by the event: MCP `2025-11-25` or later.
 
+## 60-second Alexa+ eligibility proof
+
+This is not only a web tutor simulation. The repository includes a working self-hosted MCP server for the Alexa+ track:
+
+- official `@modelcontextprotocol/sdk` server and client imports;
+- Streamable HTTP transport at `POST /mcp`;
+- health metadata declaring the minimum protocol target `2025-11-25`;
+- six callable learning tools;
+- a real client/server integration test that initializes the MCP connection, discovers tools, completes a learning loop, reads cross-session memory, and verifies that prior mastery changes the next-session plan.
+
+Run the Alexa+ proof directly:
+
+```bash
+npm install
+npm run test:mcp
+```
+
+Expected final line:
+
+```text
+MCP integration test: PASS — adaptive state and cross-session planning verified
+```
+
+Key implementation files: `mcp-server.mjs`, `server.mjs`, `learning-runtime.mjs`, and `tests/mcp.integration.test.mjs`.
+
 ## What to look at first
 
 1. **Presenter Mode** — Yasmin explains and demonstrates herself.
